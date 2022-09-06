@@ -101,6 +101,8 @@ class ScribbleNotifier extends ScribbleNotifierBase
   /// receive a map.
   Sketch get currentSketch => state.sketch;
 
+  final GlobalKey _scribbleKey = GlobalKey();
+
   final GlobalKey _repaintBoundaryKey = GlobalKey();
 
   double? dx;
@@ -109,7 +111,7 @@ class ScribbleNotifier extends ScribbleNotifierBase
 
   Function()? onPointerUpListener;
 
-  GlobalKey get scribbleKey => _repaintBoundaryKey;
+  GlobalKey get scribbleKey => _scribbleKey;
 
   @override
   GlobalKey get repaintBoundaryKey => _repaintBoundaryKey;
