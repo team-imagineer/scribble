@@ -10,11 +10,7 @@ part 'point.g.dart';
 class Point with _$Point {
   const Point._();
 
-  const factory Point(
-    double x,
-    double y, {
-    @Default(1) double pressure,
-  }) = _Point;
+  const factory Point(double x, double y) = _Point;
 
   factory Point.fromJson(Map<String, dynamic> json) => _$PointFromJson(json);
 

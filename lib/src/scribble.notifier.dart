@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
@@ -60,7 +59,7 @@ class ScribbleNotifier extends ScribbleNotifierBase
     Sketch? sketch,
 
     /// Which pointers can be drawn with and are captured.
-    ScribblePointerMode allowedPointersMode = ScribblePointerMode.all,
+    ScribblePointerMode allowedPointersMode = ScribblePointerMode.penOnly,
 
     /// How many states you want stored in the undo history, 30 by default.
     int maxHistoryLength = 30,
@@ -103,6 +102,14 @@ class ScribbleNotifier extends ScribbleNotifierBase
   Sketch get currentSketch => state.sketch;
 
   final GlobalKey _repaintBoundaryKey = GlobalKey();
+
+  double? dx;
+
+  double? dy;
+
+  Function()? onPointerUpListener;
+
+  GlobalKey get scribbleKey => _repaintBoundaryKey;
 
   @override
   GlobalKey get repaintBoundaryKey => _repaintBoundaryKey;
@@ -160,6 +167,7 @@ class ScribbleNotifier extends ScribbleNotifierBase
   void setStrokeWidth(double strokeWidth) {
     temporaryState = state.copyWith(
       selectedWidth: strokeWidth,
+      allowedPointersMode: state.allowedPointersMode,
     );
   }
 
@@ -198,6 +206,7 @@ class ScribbleNotifier extends ScribbleNotifierBase
         sketch: s.sketch,
         selectedColor: color.value,
         selectedWidth: s.selectedWidth,
+        allowedPointersMode: s.allowedPointersMode,
       ),
       erasing: (s) => ScribbleState.drawing(
         sketch: s.sketch,
@@ -205,6 +214,7 @@ class ScribbleNotifier extends ScribbleNotifierBase
         selectedWidth: s.selectedWidth,
         scaleFactor: state.scaleFactor,
         activePointerIds: state.activePointerIds,
+        allowedPointersMode: s.allowedPointersMode,
       ),
     );
   }
@@ -255,16 +265,25 @@ class ScribbleNotifier extends ScribbleNotifierBase
   @override
   void onPointerUpdate(PointerMoveEvent event) {
     if (!state.supportedPointerKinds.contains(event.kind)) return;
-    if (!state.active) {
+    if (!state.active ||
+        !_isIn(event.localPosition,
+            left: 0, top: 0, right: _getDx(), bottom: _getDy())) {
       temporaryState = state.copyWith(
         pointerPosition: null,
       );
       return;
     }
+
     if (state is Drawing) {
-      temporaryState = _addPoint(event, state).copyWith(
-        pointerPosition: _getPointFromEvent(event),
-      );
+      if (state.pointerPosition == null) {
+        temporaryState = _addNewPoint(event, state).copyWith(
+          pointerPosition: _getPointFromEvent(event),
+        );
+      } else {
+        temporaryState = _addPoint(event, state).copyWith(
+          pointerPosition: _getPointFromEvent(event),
+        );
+      }
     } else if (state is Erasing) {
       temporaryState = _erasePoint(event).copyWith(
         pointerPosition: _getPointFromEvent(event),
@@ -290,6 +309,9 @@ class ScribbleNotifier extends ScribbleNotifierBase
         activePointerIds:
             state.activePointerIds.where((id) => id != event.pointer).toList(),
       );
+    }
+    if (onPointerUpListener != null) {
+      onPointerUpListener!();
     }
   }
 
@@ -322,14 +344,14 @@ class ScribbleNotifier extends ScribbleNotifierBase
     );
   }
 
+  void setOnPointerUpListener(Function() function) {
+    onPointerUpListener = function;
+  }
+
   ScribbleState _addPoint(PointerEvent event, ScribbleState s) {
     if (s is Erasing || !s.active) return s;
     if (s is Drawing && s.activeLine == null) return s;
     final currentLine = (s as Drawing).activeLine!;
-    final distanceToLast = currentLine.points.isEmpty
-        ? double.infinity
-        : (currentLine.points.last.asOffset - event.localPosition).distance;
-    if (distanceToLast <= kPrecisePointerPanSlop / s.scaleFactor) return s;
     return s.copyWith(
       activeLine: currentLine.copyWith(
         points: [
@@ -337,6 +359,25 @@ class ScribbleNotifier extends ScribbleNotifierBase
           _getPointFromEvent(event),
         ],
       ),
+    );
+  }
+
+  ScribbleState _addNewPoint(PointerEvent event, ScribbleState s) {
+    if (s is Erasing || !s.active) return s;
+    if (s is Drawing && s.activeLine == null) return s;
+
+    List<SketchLine> newLines = List.of(s.sketch.lines);
+    newLines.add((s as Drawing).activeLine!);
+
+    return s.copyWith(
+      activeLine: SketchLine(
+        points: [
+          _getPointFromEvent(event),
+        ],
+        color: s.selectedColor,
+        width: s.selectedWidth,
+      ),
+      sketch: s.sketch.copyWith(lines: newLines),
     );
   }
 
@@ -352,14 +393,9 @@ class ScribbleNotifier extends ScribbleNotifierBase
 
   /// Converts a pointer event to the [Point] on the canvas.
   Point _getPointFromEvent(PointerEvent event) {
-    final p = kIsWeb || event.pressureMin == event.pressureMax
-        ? 0.5
-        : (event.pressure - event.pressureMin) /
-            (event.pressureMax - event.pressureMin);
     return Point(
       event.localPosition.dx,
       event.localPosition.dy,
-      pressure: pressureCurve.transform(p),
     );
   }
 
@@ -367,11 +403,47 @@ class ScribbleNotifier extends ScribbleNotifierBase
     if (s is Erasing || (s as Drawing).activeLine == null) {
       return s;
     }
+
+    List<Point> lastPoints = List.of(s.activeLine!.points);
+
+    if (!_isIn(s.activeLine!.points.last.asOffset,
+        left: 0, top: 0, right: _getDx(), bottom: _getDy())) {
+      lastPoints.removeLast();
+    }
+
     return s.copyWith(
       activeLine: null,
       sketch: s.sketch.copyWith(
-        lines: [...s.sketch.lines, s.activeLine!],
+        lines: [...s.sketch.lines, s.activeLine!.copyWith(points: lastPoints)],
       ),
     );
+  }
+
+  bool _isIn(Offset offset,
+      {double? left, double? top, double? right, double? bottom}) {
+    return (left == null || offset.dx >= left) &&
+        (top == null || offset.dy >= top) &&
+        (right == null || offset.dx <= right) &&
+        (bottom == null || offset.dy <= bottom);
+  }
+
+  double _getDx() {
+    if (dx != null) {
+      return dx!;
+    }
+    final RenderBox renderBox =
+        _repaintBoundaryKey.currentContext!.findRenderObject() as RenderBox;
+    Size size = renderBox.size;
+    return size.width;
+  }
+
+  double _getDy() {
+    if (dy != null) {
+      return dy!;
+    }
+    final RenderBox renderBox =
+        _repaintBoundaryKey.currentContext!.findRenderObject() as RenderBox;
+    Size size = renderBox.size;
+    return size.height;
   }
 }

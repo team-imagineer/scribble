@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/rendering.dart';
 import 'package:perfect_freehand/perfect_freehand.dart' as pf;
 import 'package:scribble/scribble.dart';
@@ -23,23 +21,20 @@ class ScribblePainter extends CustomPainter {
 
     for (int i = 0; i < lines.length; ++i) {
       final line = lines[i];
-      final simulatePressure = line.points.isNotEmpty &&
-          line.points.every((p) => p.pressure == line.points.first.pressure);
       paint.color = Color(lines[i].color);
-      final points = line.points
-          .map((point) => pf.Point(point.x, point.y, point.pressure))
-          .toList();
+      final points =
+          line.points.map((point) => pf.Point(point.x, point.y)).toList();
       final outlinePoints = pf.getStroke(
         points,
-        size: line.width * 2 * state.scaleFactor,
-        simulatePressure: simulatePressure,
+        size: line.width,
+        thinning: 0,
+        smoothing: 0,
+        streamline: 0,
+        simulatePressure: false,
       );
       final path = Path();
       if (outlinePoints.isEmpty) {
         continue;
-      } else if (outlinePoints.length < 2) {
-        path.addOval(Rect.fromCircle(
-            center: Offset(outlinePoints[0].x, outlinePoints[0].y), radius: 1));
       } else {
         path.moveTo(outlinePoints[0].x, outlinePoints[0].y);
         for (int i = 1; i < outlinePoints.length - 1; ++i) {
@@ -63,11 +58,6 @@ class ScribblePainter extends CustomPainter {
         erasing: (s) => const Color(0xFF000000),
       );
       paint.strokeWidth = 1;
-      canvas.drawCircle(
-        state.pointerPosition!.asOffset,
-        state.selectedWidth / state.scaleFactor,
-        paint,
-      );
     }
   }
 

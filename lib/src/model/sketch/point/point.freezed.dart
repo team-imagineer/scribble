@@ -22,7 +22,6 @@ Point _$PointFromJson(Map<String, dynamic> json) {
 mixin _$Point {
   double get x => throw _privateConstructorUsedError;
   double get y => throw _privateConstructorUsedError;
-  double get pressure => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +32,7 @@ mixin _$Point {
 abstract class $PointCopyWith<$Res> {
   factory $PointCopyWith(Point value, $Res Function(Point) then) =
       _$PointCopyWithImpl<$Res>;
-  $Res call({double x, double y, double pressure});
+  $Res call({double x, double y});
 }
 
 /// @nodoc
@@ -48,7 +47,6 @@ class _$PointCopyWithImpl<$Res> implements $PointCopyWith<$Res> {
   $Res call({
     Object? x = freezed,
     Object? y = freezed,
-    Object? pressure = freezed,
   }) {
     return _then(_value.copyWith(
       x: x == freezed
@@ -59,10 +57,6 @@ class _$PointCopyWithImpl<$Res> implements $PointCopyWith<$Res> {
           ? _value.y
           : y // ignore: cast_nullable_to_non_nullable
               as double,
-      pressure: pressure == freezed
-          ? _value.pressure
-          : pressure // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 }
@@ -72,7 +66,7 @@ abstract class _$$_PointCopyWith<$Res> implements $PointCopyWith<$Res> {
   factory _$$_PointCopyWith(_$_Point value, $Res Function(_$_Point) then) =
       __$$_PointCopyWithImpl<$Res>;
   @override
-  $Res call({double x, double y, double pressure});
+  $Res call({double x, double y});
 }
 
 /// @nodoc
@@ -88,7 +82,6 @@ class __$$_PointCopyWithImpl<$Res> extends _$PointCopyWithImpl<$Res>
   $Res call({
     Object? x = freezed,
     Object? y = freezed,
-    Object? pressure = freezed,
   }) {
     return _then(_$_Point(
       x == freezed
@@ -99,10 +92,6 @@ class __$$_PointCopyWithImpl<$Res> extends _$PointCopyWithImpl<$Res>
           ? _value.y
           : y // ignore: cast_nullable_to_non_nullable
               as double,
-      pressure: pressure == freezed
-          ? _value.pressure
-          : pressure // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 }
@@ -110,7 +99,7 @@ class __$$_PointCopyWithImpl<$Res> extends _$PointCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Point extends _Point {
-  const _$_Point(this.x, this.y, {this.pressure = 1}) : super._();
+  const _$_Point(this.x, this.y) : super._();
 
   factory _$_Point.fromJson(Map<String, dynamic> json) =>
       _$$_PointFromJson(json);
@@ -119,13 +108,10 @@ class _$_Point extends _Point {
   final double x;
   @override
   final double y;
-  @override
-  @JsonKey()
-  final double pressure;
 
   @override
   String toString() {
-    return 'Point(x: $x, y: $y, pressure: $pressure)';
+    return 'Point(x: $x, y: $y)';
   }
 
   @override
@@ -134,8 +120,7 @@ class _$_Point extends _Point {
         (other.runtimeType == runtimeType &&
             other is _$_Point &&
             const DeepCollectionEquality().equals(other.x, x) &&
-            const DeepCollectionEquality().equals(other.y, y) &&
-            const DeepCollectionEquality().equals(other.pressure, pressure));
+            const DeepCollectionEquality().equals(other.y, y));
   }
 
   @JsonKey(ignore: true)
@@ -143,8 +128,7 @@ class _$_Point extends _Point {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(x),
-      const DeepCollectionEquality().hash(y),
-      const DeepCollectionEquality().hash(pressure));
+      const DeepCollectionEquality().hash(y));
 
   @JsonKey(ignore: true)
   @override
@@ -153,23 +137,22 @@ class _$_Point extends _Point {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PointToJson(this);
+    return _$$_PointToJson(
+      this,
+    );
   }
 }
 
 abstract class _Point extends Point {
-  const factory _Point(final double x, final double y,
-      {final double pressure}) = _$_Point;
+  const factory _Point(final double x, final double y) = _$_Point;
   const _Point._() : super._();
 
   factory _Point.fromJson(Map<String, dynamic> json) = _$_Point.fromJson;
 
   @override
-  double get x => throw _privateConstructorUsedError;
+  double get x;
   @override
-  double get y => throw _privateConstructorUsedError;
-  @override
-  double get pressure => throw _privateConstructorUsedError;
+  double get y;
   @override
   @JsonKey(ignore: true)
   _$$_PointCopyWith<_$_Point> get copyWith =>
