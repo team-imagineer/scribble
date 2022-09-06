@@ -323,7 +323,7 @@ class _$Drawing extends Drawing {
   const _$Drawing(
       {required this.sketch,
       this.activeLine,
-      this.allowedPointersMode = ScribblePointerMode.all,
+      this.allowedPointersMode = ScribblePointerMode.penOnly,
       final List<int> activePointerIds = const [],
       this.pointerPosition,
       this.selectedColor = 0xFF000000,
@@ -556,7 +556,9 @@ class _$Drawing extends Drawing {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DrawingToJson(this);
+    return _$$DrawingToJson(
+      this,
+    );
   }
 }
 
@@ -577,39 +579,44 @@ abstract class Drawing extends ScribbleState {
   @override
 
   /// The current state of the sketch
-  Sketch get sketch => throw _privateConstructorUsedError;
+  Sketch get sketch;
 
   /// The line that is currently being drawn
-  SketchLine? get activeLine => throw _privateConstructorUsedError;
+  SketchLine? get activeLine;
+
   @override
 
   /// Which pointers are allowed for drawing and will be captured by the
   /// scribble widget.
-  ScribblePointerMode get allowedPointersMode =>
-      throw _privateConstructorUsedError;
+  ScribblePointerMode get allowedPointersMode;
+
   @override
 
   /// The ids of all supported pointers that are currently interacting with
   /// the widget.
-  List<int> get activePointerIds => throw _privateConstructorUsedError;
+  List<int> get activePointerIds;
+
   @override
 
   /// The current position of the pointer
-  Point? get pointerPosition => throw _privateConstructorUsedError;
+  Point? get pointerPosition;
 
   /// The color that is currently being drawn with
-  int get selectedColor => throw _privateConstructorUsedError;
+  int get selectedColor;
+
   @override
 
   /// The current width of the pen
-  double get selectedWidth => throw _privateConstructorUsedError;
+  double get selectedWidth;
+
   @override
 
   /// How much the widget is scaled at the moment.
   ///
   /// Can be used if zoom functionality is needed
   /// (e.g. through InteractiveViewer) so that the pen width remains the same.
-  double get scaleFactor => throw _privateConstructorUsedError;
+  double get scaleFactor;
+
   @override
   @JsonKey(ignore: true)
   _$$DrawingCopyWith<_$Drawing> get copyWith =>
@@ -898,7 +905,9 @@ class _$Erasing extends Erasing {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ErasingToJson(this);
+    return _$$ErasingToJson(
+      this,
+    );
   }
 }
 
@@ -917,33 +926,38 @@ abstract class Erasing extends ScribbleState {
   @override
 
   /// The current state of the sketch
-  Sketch get sketch => throw _privateConstructorUsedError;
+  Sketch get sketch;
+
   @override
 
   /// Which pointers are allowed for drawing and will be captured by the
   /// scribble widget.
-  ScribblePointerMode get allowedPointersMode =>
-      throw _privateConstructorUsedError;
+  ScribblePointerMode get allowedPointersMode;
+
   @override
 
   /// The ids of all supported pointers that are currently interacting with
   /// the widget.
-  List<int> get activePointerIds => throw _privateConstructorUsedError;
+  List<int> get activePointerIds;
+
   @override
 
   /// The current position of the pointer
-  Point? get pointerPosition => throw _privateConstructorUsedError;
+  Point? get pointerPosition;
+
   @override
 
   /// The current width of the pen
-  double get selectedWidth => throw _privateConstructorUsedError;
+  double get selectedWidth;
+
   @override
 
   /// How much the widget is scaled at the moment.
   ///
   /// Can be used if zoom functionality is needed
   /// (e.g. through InteractiveViewer) so that the pen width remains the same.
-  double get scaleFactor => throw _privateConstructorUsedError;
+  double get scaleFactor;
+
   @override
   @JsonKey(ignore: true)
   _$$ErasingCopyWith<_$Erasing> get copyWith =>

@@ -13,7 +13,7 @@ _$Drawing _$$DrawingFromJson(Map<String, dynamic> json) => _$Drawing(
           : SketchLine.fromJson(json['activeLine'] as Map<String, dynamic>),
       allowedPointersMode: $enumDecodeNullable(
               _$ScribblePointerModeEnumMap, json['allowedPointersMode']) ??
-          ScribblePointerMode.all,
+          ScribblePointerMode.penOnly,
       activePointerIds: (json['activePointerIds'] as List<dynamic>?)
               ?.map((e) => e as int)
               .toList() ??
@@ -27,11 +27,12 @@ _$Drawing _$$DrawingFromJson(Map<String, dynamic> json) => _$Drawing(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$DrawingToJson(_$Drawing instance) => <String, dynamic>{
+Map<String, dynamic> _$$DrawingToJson(_$Drawing instance) =>
+    <String, dynamic>{
       'sketch': instance.sketch.toJson(),
       'activeLine': instance.activeLine?.toJson(),
       'allowedPointersMode':
-          _$ScribblePointerModeEnumMap[instance.allowedPointersMode],
+          _$ScribblePointerModeEnumMap[instance.allowedPointersMode]!,
       'activePointerIds': instance.activePointerIds,
       'pointerPosition': instance.pointerPosition?.toJson(),
       'selectedColor': instance.selectedColor,
@@ -64,10 +65,11 @@ _$Erasing _$$ErasingFromJson(Map<String, dynamic> json) => _$Erasing(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ErasingToJson(_$Erasing instance) => <String, dynamic>{
+Map<String, dynamic> _$$ErasingToJson(_$Erasing instance) =>
+    <String, dynamic>{
       'sketch': instance.sketch.toJson(),
       'allowedPointersMode':
-          _$ScribblePointerModeEnumMap[instance.allowedPointersMode],
+          _$ScribblePointerModeEnumMap[instance.allowedPointersMode]!,
       'activePointerIds': instance.activePointerIds,
       'pointerPosition': instance.pointerPosition?.toJson(),
       'selectedWidth': instance.selectedWidth,

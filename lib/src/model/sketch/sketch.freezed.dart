@@ -125,7 +125,9 @@ class _$_Sketch implements _Sketch {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SketchToJson(this);
+    return _$$_SketchToJson(
+      this,
+    );
   }
 }
 
@@ -135,7 +137,8 @@ abstract class _Sketch implements Sketch {
   factory _Sketch.fromJson(Map<String, dynamic> json) = _$_Sketch.fromJson;
 
   @override
-  List<SketchLine> get lines => throw _privateConstructorUsedError;
+  List<SketchLine> get lines;
+
   @override
   @JsonKey(ignore: true)
   _$$_SketchCopyWith<_$_Sketch> get copyWith =>

@@ -178,6 +178,7 @@ class ScribbleNotifier extends ScribbleNotifierBase
       selectedWidth: state.selectedWidth,
       scaleFactor: state.scaleFactor,
       activePointerIds: state.activePointerIds,
+      allowedPointersMode: state.allowedPointersMode,
     );
   }
 

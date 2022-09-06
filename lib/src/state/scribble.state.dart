@@ -4,7 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:scribble/src/model/sketch/sketch.dart';
 
 part 'scribble.state.freezed.dart';
-
 part 'scribble.state.g.dart';
 
 enum ScribblePointerMode {
@@ -27,7 +26,8 @@ class ScribbleState with _$ScribbleState {
 
     /// Which pointers are allowed for drawing and will be captured by the
     /// scribble widget.
-    @Default(ScribblePointerMode.all) ScribblePointerMode allowedPointersMode,
+    @Default(ScribblePointerMode.penOnly)
+        ScribblePointerMode allowedPointersMode,
 
     /// The ids of all supported pointers that are currently interacting with
     /// the widget.

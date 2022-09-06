@@ -166,7 +166,9 @@ class _$_SketchLine implements _SketchLine {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SketchLineToJson(this);
+    return _$$_SketchLineToJson(
+      this,
+    );
   }
 }
 
@@ -180,11 +182,14 @@ abstract class _SketchLine implements SketchLine {
       _$_SketchLine.fromJson;
 
   @override
-  List<Point> get points => throw _privateConstructorUsedError;
+  List<Point> get points;
+
   @override
-  int get color => throw _privateConstructorUsedError;
+  int get color;
+
   @override
-  double get width => throw _privateConstructorUsedError;
+  double get width;
+
   @override
   @JsonKey(ignore: true)
   _$$_SketchLineCopyWith<_$_SketchLine> get copyWith =>
