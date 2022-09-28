@@ -7,11 +7,13 @@ class ScribblePainter extends CustomPainter {
     required this.state,
     required this.drawPointer,
     required this.drawEraser,
+    this.isDarkMode = false,
   });
 
   final ScribbleState state;
   final bool drawPointer;
   final bool drawEraser;
+  final bool isDarkMode;
 
   List<SketchLine> get lines => state.lines;
 
@@ -21,6 +23,12 @@ class ScribblePainter extends CustomPainter {
 
     for (int i = 0; i < lines.length; ++i) {
       final line = lines[i];
+      int color = lines[i].color;
+
+      if (isDarkMode && color == 0) {
+        color = 0xFFFFFFFF;
+      }
+
       paint.color = Color(lines[i].color);
       final points =
           line.points.map((point) => pf.Point(point.x, point.y)).toList();

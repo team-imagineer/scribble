@@ -23,6 +23,7 @@ class Scribble extends StatefulWidget {
 
     /// Whether to draw the pointer when in erasing mode
     this.drawEraser = true,
+    this.isDarkMode = false,
     Key? key,
   }) : super(key: key);
 
@@ -34,6 +35,8 @@ class Scribble extends StatefulWidget {
 
   /// Whether to draw the pointer when in erasing mode
   final bool drawEraser;
+
+  final bool isDarkMode;
 
   @override
   State<Scribble> createState() => _ScribbleState();
@@ -55,6 +58,7 @@ class _ScribbleState extends State<Scribble> {
                 state: state,
                 drawPointer: widget.drawPen,
                 drawEraser: widget.drawEraser,
+                isDarkMode: widget.isDarkMode,
               ),
             ),
           ),
