@@ -25,7 +25,7 @@ class ScribblePainter extends CustomPainter {
       final line = lines[i];
       int color = lines[i].color;
 
-      if (isDarkMode && color == 0) {
+      if (isDarkMode && color == 0xFF000000) {
         color = 0xFFFFFFFF;
       }
 
