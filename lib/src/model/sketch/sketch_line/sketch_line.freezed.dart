@@ -183,13 +183,10 @@ abstract class _SketchLine implements SketchLine {
 
   @override
   List<Point> get points;
-
   @override
   int get color;
-
   @override
   double get width;
-
   @override
   @JsonKey(ignore: true)
   _$$_SketchLineCopyWith<_$_SketchLine> get copyWith =>

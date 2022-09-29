@@ -138,7 +138,6 @@ abstract class _Sketch implements Sketch {
 
   @override
   List<SketchLine> get lines;
-
   @override
   @JsonKey(ignore: true)
   _$$_SketchCopyWith<_$_Sketch> get copyWith =>

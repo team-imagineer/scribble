@@ -24,11 +24,11 @@ _$Drawing _$$DrawingFromJson(Map<String, dynamic> json) => _$Drawing(
       selectedColor: json['selectedColor'] as int? ?? 0xFF000000,
       selectedWidth: (json['selectedWidth'] as num?)?.toDouble() ?? 5,
       scaleFactor: (json['scaleFactor'] as num?)?.toDouble() ?? 1,
+      isDarkMode: json['isDarkMode'] as bool? ?? false,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$DrawingToJson(_$Drawing instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$DrawingToJson(_$Drawing instance) => <String, dynamic>{
       'sketch': instance.sketch.toJson(),
       'activeLine': instance.activeLine?.toJson(),
       'allowedPointersMode':
@@ -38,6 +38,7 @@ Map<String, dynamic> _$$DrawingToJson(_$Drawing instance) =>
       'selectedColor': instance.selectedColor,
       'selectedWidth': instance.selectedWidth,
       'scaleFactor': instance.scaleFactor,
+      'isDarkMode': instance.isDarkMode,
       'runtimeType': instance.$type,
     };
 
@@ -62,11 +63,11 @@ _$Erasing _$$ErasingFromJson(Map<String, dynamic> json) => _$Erasing(
           : Point.fromJson(json['pointerPosition'] as Map<String, dynamic>),
       selectedWidth: (json['selectedWidth'] as num?)?.toDouble() ?? 5,
       scaleFactor: (json['scaleFactor'] as num?)?.toDouble() ?? 1,
+      isDarkMode: json['isDarkMode'] as bool? ?? false,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ErasingToJson(_$Erasing instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$ErasingToJson(_$Erasing instance) => <String, dynamic>{
       'sketch': instance.sketch.toJson(),
       'allowedPointersMode':
           _$ScribblePointerModeEnumMap[instance.allowedPointersMode]!,
@@ -74,5 +75,6 @@ Map<String, dynamic> _$$ErasingToJson(_$Erasing instance) =>
       'pointerPosition': instance.pointerPosition?.toJson(),
       'selectedWidth': instance.selectedWidth,
       'scaleFactor': instance.scaleFactor,
+      'isDarkMode': instance.isDarkMode,
       'runtimeType': instance.$type,
     };

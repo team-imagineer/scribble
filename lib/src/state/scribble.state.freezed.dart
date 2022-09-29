@@ -52,6 +52,8 @@ mixin _$ScribbleState {
   /// Can be used if zoom functionality is needed
   /// (e.g. through InteractiveViewer) so that the pen width remains the same.
   double get scaleFactor => throw _privateConstructorUsedError;
+
+  bool get isDarkMode => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -62,7 +64,8 @@ mixin _$ScribbleState {
             Point? pointerPosition,
             int selectedColor,
             double selectedWidth,
-            double scaleFactor)
+            double scaleFactor,
+            bool isDarkMode)
         drawing,
     required TResult Function(
             Sketch sketch,
@@ -70,7 +73,8 @@ mixin _$ScribbleState {
             List<int> activePointerIds,
             Point? pointerPosition,
             double selectedWidth,
-            double scaleFactor)
+            double scaleFactor,
+            bool isDarkMode)
         erasing,
   }) =>
       throw _privateConstructorUsedError;
@@ -84,7 +88,8 @@ mixin _$ScribbleState {
             Point? pointerPosition,
             int selectedColor,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         drawing,
     TResult Function(
             Sketch sketch,
@@ -92,7 +97,8 @@ mixin _$ScribbleState {
             List<int> activePointerIds,
             Point? pointerPosition,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         erasing,
   }) =>
       throw _privateConstructorUsedError;
@@ -106,7 +112,8 @@ mixin _$ScribbleState {
             Point? pointerPosition,
             int selectedColor,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         drawing,
     TResult Function(
             Sketch sketch,
@@ -114,7 +121,8 @@ mixin _$ScribbleState {
             List<int> activePointerIds,
             Point? pointerPosition,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         erasing,
     required TResult orElse(),
   }) =>
@@ -149,13 +157,15 @@ abstract class $ScribbleStateCopyWith<$Res> {
   factory $ScribbleStateCopyWith(
           ScribbleState value, $Res Function(ScribbleState) then) =
       _$ScribbleStateCopyWithImpl<$Res>;
+
   $Res call(
       {Sketch sketch,
       ScribblePointerMode allowedPointersMode,
       List<int> activePointerIds,
       Point? pointerPosition,
       double selectedWidth,
-      double scaleFactor});
+      double scaleFactor,
+      bool isDarkMode});
 
   $SketchCopyWith<$Res> get sketch;
   $PointCopyWith<$Res>? get pointerPosition;
@@ -178,6 +188,7 @@ class _$ScribbleStateCopyWithImpl<$Res>
     Object? pointerPosition = freezed,
     Object? selectedWidth = freezed,
     Object? scaleFactor = freezed,
+    Object? isDarkMode = freezed,
   }) {
     return _then(_value.copyWith(
       sketch: sketch == freezed
@@ -204,6 +215,10 @@ class _$ScribbleStateCopyWithImpl<$Res>
           ? _value.scaleFactor
           : scaleFactor // ignore: cast_nullable_to_non_nullable
               as double,
+      isDarkMode: isDarkMode == freezed
+          ? _value.isDarkMode
+          : isDarkMode // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -231,6 +246,7 @@ abstract class _$$DrawingCopyWith<$Res>
     implements $ScribbleStateCopyWith<$Res> {
   factory _$$DrawingCopyWith(_$Drawing value, $Res Function(_$Drawing) then) =
       __$$DrawingCopyWithImpl<$Res>;
+
   @override
   $Res call(
       {Sketch sketch,
@@ -240,7 +256,8 @@ abstract class _$$DrawingCopyWith<$Res>
       Point? pointerPosition,
       int selectedColor,
       double selectedWidth,
-      double scaleFactor});
+      double scaleFactor,
+      bool isDarkMode});
 
   @override
   $SketchCopyWith<$Res> get sketch;
@@ -268,6 +285,7 @@ class __$$DrawingCopyWithImpl<$Res> extends _$ScribbleStateCopyWithImpl<$Res>
     Object? selectedColor = freezed,
     Object? selectedWidth = freezed,
     Object? scaleFactor = freezed,
+    Object? isDarkMode = freezed,
   }) {
     return _then(_$Drawing(
       sketch: sketch == freezed
@@ -302,6 +320,10 @@ class __$$DrawingCopyWithImpl<$Res> extends _$ScribbleStateCopyWithImpl<$Res>
           ? _value.scaleFactor
           : scaleFactor // ignore: cast_nullable_to_non_nullable
               as double,
+      isDarkMode: isDarkMode == freezed
+          ? _value.isDarkMode
+          : isDarkMode // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -329,6 +351,7 @@ class _$Drawing extends Drawing {
       this.selectedColor = 0xFF000000,
       this.selectedWidth = 5,
       this.scaleFactor = 1,
+      this.isDarkMode = false,
       final String? $type})
       : _activePointerIds = activePointerIds,
         $type = $type ?? 'drawing',
@@ -385,13 +408,16 @@ class _$Drawing extends Drawing {
   @override
   @JsonKey()
   final double scaleFactor;
+  @override
+  @JsonKey()
+  final bool isDarkMode;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'ScribbleState.drawing(sketch: $sketch, activeLine: $activeLine, allowedPointersMode: $allowedPointersMode, activePointerIds: $activePointerIds, pointerPosition: $pointerPosition, selectedColor: $selectedColor, selectedWidth: $selectedWidth, scaleFactor: $scaleFactor)';
+    return 'ScribbleState.drawing(sketch: $sketch, activeLine: $activeLine, allowedPointersMode: $allowedPointersMode, activePointerIds: $activePointerIds, pointerPosition: $pointerPosition, selectedColor: $selectedColor, selectedWidth: $selectedWidth, scaleFactor: $scaleFactor, isDarkMode: $isDarkMode)';
   }
 
   @override
@@ -413,7 +439,9 @@ class _$Drawing extends Drawing {
             const DeepCollectionEquality()
                 .equals(other.selectedWidth, selectedWidth) &&
             const DeepCollectionEquality()
-                .equals(other.scaleFactor, scaleFactor));
+                .equals(other.scaleFactor, scaleFactor) &&
+            const DeepCollectionEquality()
+                .equals(other.isDarkMode, isDarkMode));
   }
 
   @JsonKey(ignore: true)
@@ -427,7 +455,8 @@ class _$Drawing extends Drawing {
       const DeepCollectionEquality().hash(pointerPosition),
       const DeepCollectionEquality().hash(selectedColor),
       const DeepCollectionEquality().hash(selectedWidth),
-      const DeepCollectionEquality().hash(scaleFactor));
+      const DeepCollectionEquality().hash(scaleFactor),
+      const DeepCollectionEquality().hash(isDarkMode));
 
   @JsonKey(ignore: true)
   @override
@@ -445,7 +474,8 @@ class _$Drawing extends Drawing {
             Point? pointerPosition,
             int selectedColor,
             double selectedWidth,
-            double scaleFactor)
+            double scaleFactor,
+            bool isDarkMode)
         drawing,
     required TResult Function(
             Sketch sketch,
@@ -453,11 +483,12 @@ class _$Drawing extends Drawing {
             List<int> activePointerIds,
             Point? pointerPosition,
             double selectedWidth,
-            double scaleFactor)
+            double scaleFactor,
+            bool isDarkMode)
         erasing,
   }) {
     return drawing(sketch, activeLine, allowedPointersMode, activePointerIds,
-        pointerPosition, selectedColor, selectedWidth, scaleFactor);
+        pointerPosition, selectedColor, selectedWidth, scaleFactor, isDarkMode);
   }
 
   @override
@@ -471,7 +502,8 @@ class _$Drawing extends Drawing {
             Point? pointerPosition,
             int selectedColor,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         drawing,
     TResult Function(
             Sketch sketch,
@@ -479,7 +511,8 @@ class _$Drawing extends Drawing {
             List<int> activePointerIds,
             Point? pointerPosition,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         erasing,
   }) {
     return drawing?.call(
@@ -490,7 +523,8 @@ class _$Drawing extends Drawing {
         pointerPosition,
         selectedColor,
         selectedWidth,
-        scaleFactor);
+        scaleFactor,
+        isDarkMode);
   }
 
   @override
@@ -504,7 +538,8 @@ class _$Drawing extends Drawing {
             Point? pointerPosition,
             int selectedColor,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         drawing,
     TResult Function(
             Sketch sketch,
@@ -512,13 +547,22 @@ class _$Drawing extends Drawing {
             List<int> activePointerIds,
             Point? pointerPosition,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         erasing,
     required TResult orElse(),
   }) {
     if (drawing != null) {
-      return drawing(sketch, activeLine, allowedPointersMode, activePointerIds,
-          pointerPosition, selectedColor, selectedWidth, scaleFactor);
+      return drawing(
+          sketch,
+          activeLine,
+          allowedPointersMode,
+          activePointerIds,
+          pointerPosition,
+          selectedColor,
+          selectedWidth,
+          scaleFactor,
+          isDarkMode);
     }
     return orElse();
   }
@@ -571,7 +615,8 @@ abstract class Drawing extends ScribbleState {
       final Point? pointerPosition,
       final int selectedColor,
       final double selectedWidth,
-      final double scaleFactor}) = _$Drawing;
+      final double scaleFactor,
+      final bool isDarkMode}) = _$Drawing;
   const Drawing._() : super._();
 
   factory Drawing.fromJson(Map<String, dynamic> json) = _$Drawing.fromJson;
@@ -583,19 +628,16 @@ abstract class Drawing extends ScribbleState {
 
   /// The line that is currently being drawn
   SketchLine? get activeLine;
-
   @override
 
   /// Which pointers are allowed for drawing and will be captured by the
   /// scribble widget.
   ScribblePointerMode get allowedPointersMode;
-
   @override
 
   /// The ids of all supported pointers that are currently interacting with
   /// the widget.
   List<int> get activePointerIds;
-
   @override
 
   /// The current position of the pointer
@@ -603,7 +645,6 @@ abstract class Drawing extends ScribbleState {
 
   /// The color that is currently being drawn with
   int get selectedColor;
-
   @override
 
   /// The current width of the pen
@@ -618,6 +659,9 @@ abstract class Drawing extends ScribbleState {
   double get scaleFactor;
 
   @override
+  bool get isDarkMode;
+
+  @override
   @JsonKey(ignore: true)
   _$$DrawingCopyWith<_$Drawing> get copyWith =>
       throw _privateConstructorUsedError;
@@ -628,6 +672,7 @@ abstract class _$$ErasingCopyWith<$Res>
     implements $ScribbleStateCopyWith<$Res> {
   factory _$$ErasingCopyWith(_$Erasing value, $Res Function(_$Erasing) then) =
       __$$ErasingCopyWithImpl<$Res>;
+
   @override
   $Res call(
       {Sketch sketch,
@@ -635,7 +680,8 @@ abstract class _$$ErasingCopyWith<$Res>
       List<int> activePointerIds,
       Point? pointerPosition,
       double selectedWidth,
-      double scaleFactor});
+      double scaleFactor,
+      bool isDarkMode});
 
   @override
   $SketchCopyWith<$Res> get sketch;
@@ -660,6 +706,7 @@ class __$$ErasingCopyWithImpl<$Res> extends _$ScribbleStateCopyWithImpl<$Res>
     Object? pointerPosition = freezed,
     Object? selectedWidth = freezed,
     Object? scaleFactor = freezed,
+    Object? isDarkMode = freezed,
   }) {
     return _then(_$Erasing(
       sketch: sketch == freezed
@@ -686,6 +733,10 @@ class __$$ErasingCopyWithImpl<$Res> extends _$ScribbleStateCopyWithImpl<$Res>
           ? _value.scaleFactor
           : scaleFactor // ignore: cast_nullable_to_non_nullable
               as double,
+      isDarkMode: isDarkMode == freezed
+          ? _value.isDarkMode
+          : isDarkMode // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -700,6 +751,7 @@ class _$Erasing extends Erasing {
       this.pointerPosition,
       this.selectedWidth = 5,
       this.scaleFactor = 1,
+      this.isDarkMode = false,
       final String? $type})
       : _activePointerIds = activePointerIds,
         $type = $type ?? 'erasing',
@@ -747,13 +799,16 @@ class _$Erasing extends Erasing {
   @override
   @JsonKey()
   final double scaleFactor;
+  @override
+  @JsonKey()
+  final bool isDarkMode;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'ScribbleState.erasing(sketch: $sketch, allowedPointersMode: $allowedPointersMode, activePointerIds: $activePointerIds, pointerPosition: $pointerPosition, selectedWidth: $selectedWidth, scaleFactor: $scaleFactor)';
+    return 'ScribbleState.erasing(sketch: $sketch, allowedPointersMode: $allowedPointersMode, activePointerIds: $activePointerIds, pointerPosition: $pointerPosition, selectedWidth: $selectedWidth, scaleFactor: $scaleFactor, isDarkMode: $isDarkMode)';
   }
 
   @override
@@ -771,7 +826,9 @@ class _$Erasing extends Erasing {
             const DeepCollectionEquality()
                 .equals(other.selectedWidth, selectedWidth) &&
             const DeepCollectionEquality()
-                .equals(other.scaleFactor, scaleFactor));
+                .equals(other.scaleFactor, scaleFactor) &&
+            const DeepCollectionEquality()
+                .equals(other.isDarkMode, isDarkMode));
   }
 
   @JsonKey(ignore: true)
@@ -783,7 +840,8 @@ class _$Erasing extends Erasing {
       const DeepCollectionEquality().hash(_activePointerIds),
       const DeepCollectionEquality().hash(pointerPosition),
       const DeepCollectionEquality().hash(selectedWidth),
-      const DeepCollectionEquality().hash(scaleFactor));
+      const DeepCollectionEquality().hash(scaleFactor),
+      const DeepCollectionEquality().hash(isDarkMode));
 
   @JsonKey(ignore: true)
   @override
@@ -801,7 +859,8 @@ class _$Erasing extends Erasing {
             Point? pointerPosition,
             int selectedColor,
             double selectedWidth,
-            double scaleFactor)
+            double scaleFactor,
+            bool isDarkMode)
         drawing,
     required TResult Function(
             Sketch sketch,
@@ -809,11 +868,12 @@ class _$Erasing extends Erasing {
             List<int> activePointerIds,
             Point? pointerPosition,
             double selectedWidth,
-            double scaleFactor)
+            double scaleFactor,
+            bool isDarkMode)
         erasing,
   }) {
     return erasing(sketch, allowedPointersMode, activePointerIds,
-        pointerPosition, selectedWidth, scaleFactor);
+        pointerPosition, selectedWidth, scaleFactor, isDarkMode);
   }
 
   @override
@@ -827,7 +887,8 @@ class _$Erasing extends Erasing {
             Point? pointerPosition,
             int selectedColor,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         drawing,
     TResult Function(
             Sketch sketch,
@@ -835,11 +896,12 @@ class _$Erasing extends Erasing {
             List<int> activePointerIds,
             Point? pointerPosition,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         erasing,
   }) {
     return erasing?.call(sketch, allowedPointersMode, activePointerIds,
-        pointerPosition, selectedWidth, scaleFactor);
+        pointerPosition, selectedWidth, scaleFactor, isDarkMode);
   }
 
   @override
@@ -853,7 +915,8 @@ class _$Erasing extends Erasing {
             Point? pointerPosition,
             int selectedColor,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         drawing,
     TResult Function(
             Sketch sketch,
@@ -861,13 +924,14 @@ class _$Erasing extends Erasing {
             List<int> activePointerIds,
             Point? pointerPosition,
             double selectedWidth,
-            double scaleFactor)?
+            double scaleFactor,
+            bool isDarkMode)?
         erasing,
     required TResult orElse(),
   }) {
     if (erasing != null) {
       return erasing(sketch, allowedPointersMode, activePointerIds,
-          pointerPosition, selectedWidth, scaleFactor);
+          pointerPosition, selectedWidth, scaleFactor, isDarkMode);
     }
     return orElse();
   }
@@ -918,7 +982,8 @@ abstract class Erasing extends ScribbleState {
       final List<int> activePointerIds,
       final Point? pointerPosition,
       final double selectedWidth,
-      final double scaleFactor}) = _$Erasing;
+      final double scaleFactor,
+      final bool isDarkMode}) = _$Erasing;
   const Erasing._() : super._();
 
   factory Erasing.fromJson(Map<String, dynamic> json) = _$Erasing.fromJson;
@@ -927,24 +992,20 @@ abstract class Erasing extends ScribbleState {
 
   /// The current state of the sketch
   Sketch get sketch;
-
   @override
 
   /// Which pointers are allowed for drawing and will be captured by the
   /// scribble widget.
   ScribblePointerMode get allowedPointersMode;
-
   @override
 
   /// The ids of all supported pointers that are currently interacting with
   /// the widget.
   List<int> get activePointerIds;
-
   @override
 
   /// The current position of the pointer
   Point? get pointerPosition;
-
   @override
 
   /// The current width of the pen
@@ -957,6 +1018,9 @@ abstract class Erasing extends ScribbleState {
   /// Can be used if zoom functionality is needed
   /// (e.g. through InteractiveViewer) so that the pen width remains the same.
   double get scaleFactor;
+
+  @override
+  bool get isDarkMode;
 
   @override
   @JsonKey(ignore: true)

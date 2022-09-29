@@ -1,12 +1,17 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'point.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 _$_Point _$$_PointFromJson(Map<String, dynamic> json) => _$_Point(
-      double.parse(json['x'] as String).toDouble(),
-      double.parse(json['y'] as String).toDouble(),
+      (json['x'] as num).toDouble(),
+      (json['y'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$_PointToJson(_$_Point instance) =>
-    <String, dynamic>{
-      'x': instance.x.toStringAsFixed(2),
-      'y': instance.y.toStringAsFixed(2),
+Map<String, dynamic> _$$_PointToJson(_$_Point instance) => <String, dynamic>{
+      'x': instance.x,
+      'y': instance.y,
     };

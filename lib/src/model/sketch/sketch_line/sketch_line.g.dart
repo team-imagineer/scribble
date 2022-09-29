@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'sketch_line.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _$_SketchLine _$$_SketchLineFromJson(Map<String, dynamic> json) =>
     _$_SketchLine(
@@ -13,5 +19,5 @@ Map<String, dynamic> _$$_SketchLineToJson(_$_SketchLine instance) =>
     <String, dynamic>{
       'points': instance.points.map((e) => e.toJson()).toList(),
       'color': instance.color,
-      'width': instance.width.round(),
+      'width': instance.width,
     };
