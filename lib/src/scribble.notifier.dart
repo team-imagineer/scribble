@@ -222,6 +222,10 @@ class ScribbleNotifier extends ScribbleNotifierBase
     );
   }
 
+  void update() {
+    temporaryState = state.copyWith();
+  }
+
   /// Used by the Listener callback to display the pen if desired
   @override
   void onPointerHover(PointerHoverEvent event) {
