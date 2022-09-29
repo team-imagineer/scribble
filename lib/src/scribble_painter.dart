@@ -23,13 +23,8 @@ class ScribblePainter extends CustomPainter {
 
     for (int i = 0; i < lines.length; ++i) {
       final line = lines[i];
-      int color = lines[i].color;
 
-      if (isDarkMode && color == 0xFF000000) {
-        color = 0xFFFFFFFF;
-      }
-
-      paint.color = Color(lines[i].color);
+      paint.color = CustomColor(lines[i].color, isDarkMode);
       final points =
           line.points.map((point) => pf.Point(point.x, point.y)).toList();
       final outlinePoints = pf.getStroke(
@@ -52,7 +47,7 @@ class ScribblePainter extends CustomPainter {
               p0.x, p0.y, (p0.x + p1.x) / 2, (p0.y + p1.y) / 2);
         }
       }
-      paint.color = Color(lines[i].color);
+      paint.color = CustomColor(lines[i].color, isDarkMode);
       canvas.drawPath(path, paint);
     }
     if (state.pointerPosition != null &&
@@ -62,7 +57,7 @@ class ScribblePainter extends CustomPainter {
         erasing: (_) => PaintingStyle.stroke,
       );
       paint.color = state.map(
-        drawing: (s) => Color(s.selectedColor),
+        drawing: (s) => CustomColor(s.selectedColor, isDarkMode),
         erasing: (s) => const Color(0xFF000000),
       );
       paint.strokeWidth = 1;
@@ -73,4 +68,9 @@ class ScribblePainter extends CustomPainter {
   bool shouldRepaint(ScribblePainter oldDelegate) {
     return oldDelegate.state != state;
   }
+}
+
+class CustomColor extends Color {
+  CustomColor(int value, bool isDarkMode)
+      : super((isDarkMode && value == 0xFF000000) ? 0xFFFFFFFF : value);
 }
