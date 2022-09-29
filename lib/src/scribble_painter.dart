@@ -72,5 +72,7 @@ class ScribblePainter extends CustomPainter {
 
 class CustomColor extends Color {
   CustomColor(int value, bool isDarkMode)
-      : super((isDarkMode && value == 0xFF000000) ? 0xFFFFFFFF : value);
+      : super((isDarkMode && (value > 0 && value % 0x1000000 == 0))
+            ? 0xFFFFFFFF
+            : value);
 }
